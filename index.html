@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+        integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+        integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+        crossorigin=""></script>
+    <style>
+        #mapid {
+            height: 480px;
+            width: 600px;
+            display: block;
+        }
+    </style>
+
+    <title>Where Am I Now?</title>
+</head>
+
+<body>
+    <h1>Discover the distance between you and the marker?</h1>
+
+    <p> Latitude: <span id="lat"></span>°<br /> </p>
+    <p> Longitude: <span id="lon"></span>°<br /> </p>
+
+
+    <div id="mapid"></div>
+
+    <script>
+        const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+        const streetMap_url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        const atribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+
+        var mymap = L.map('mapid').setView([0, 0], 1);
+        mymap.on('click', onMapClick);
+        var myIcon = L.icon({
+            iconUrl: 'pin.png',
+            iconSize: [28, 35],
+            iconAnchor: [25, 16]
+        });
+
+        let marker = L.marker([0, 0], { icon: myIcon }).addTo(mymap)
+        let latitude
+        let longitude
+
+        L.tileLayer(streetMap_url, {
+            attribution: atribution,
+            maxZoom: 15,
+            maxNativeZoom: 19,
+
+        }).addTo(mymap);
+
+        mymap.on('zoomend', function() {
+        //const zoom = mymap.getZoom() + 1;
+        console.log(zoom)
+        const w = 20 * zoom;
+        const h = 22 * zoom;
+        myIcon.options.iconSize = [w, h];
+        myIcon.options.iconAnchor = [w / 2, h / 2];
+        mymap.removeLayer(marker);
+        let latlng = marker.getLatLng();
+        marker = L.marker([0, 0], { icon: myIcon }).addTo(mymap);
+        marker.setLatLng(latlng);
+      });
+
+        async function getLatLon() {
+            const res = await fetch(api_url)
+            const data = await res.json()
+            latitude = data.latitude
+            longitude = data.longitude
+            document.getElementById('lat').textContent = latitude.toFixed(4)
+            document.getElementById('lon').textContent = longitude.toFixed(4)
+            marker.setLatLng([latitude, longitude]).addTo(mymap)
+        }
+        //mymap.zoom(5)
+
+
+        async function onMapClick(e) {
+            const latLng = e.latlng
+            const distance = mymap.distance([latLng.lat, latLng.lng], [latitude, longitude]).toFixed(2)
+
+            var polygon = L.polygon([
+                [latLng.lat, latLng.lng],
+                [latitude, longitude]
+            ]).addTo(mymap);
+
+            
+            polygon.bindPopup("Theres just "+ distance + " Meters between us");
+            // alert("Distnância entre o que você clicou e nosso satélite: " +
+            //     distance + " Metros")
+        }
+
+        getLatLon()
+        setInterval(getLatLon, 2000)
+    </script>
+</body>
+
+</html>
