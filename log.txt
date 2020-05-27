@@ -1,0 +1,32 @@
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
+{
+ "Latitude: ": -26.8251371,
+ "Longitude: ": -49.26952
+}
