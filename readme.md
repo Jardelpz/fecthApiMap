@@ -1,1 +1,1 @@
-The Project shows the distance between a clickmap and a random sputnik. This project also sends to backend, when clicked 'Send', your current location.
+The Project compares the distance between you and a satellite. The location of this satellite comes from an api that is consulted every 2 seconds. This project also sends to backend, when clicked 'Send', your current location and stored in log.txt.
