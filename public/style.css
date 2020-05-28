@@ -1,0 +1,26 @@
+body{
+    background-image: url("bck.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#container {
+    width: 100vw;
+    height: 65vh;
+    background: #6C7A89;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+.mapid {
+    background: #fff;
+}
+
+#mapid {
+    height: 60vh;
+    width: 600px;
+    display: block;
+    justify-content: center;
+    align-items: center
+}
